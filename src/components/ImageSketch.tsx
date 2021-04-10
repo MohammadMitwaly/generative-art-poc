@@ -10,7 +10,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   };
 
   const draw = (p5: p5Types) => {
-    p5.background(0);
+    p5.background("pink");
   };
 
   return <Sketch setup={setup} draw={draw} />;
