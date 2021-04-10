@@ -1,7 +1,6 @@
 import React from "react";
 import Sketch from "react-p5";
 import p5Types from "p5";
-import "../App.css";
 
 interface ImageSketchProps {}
 
@@ -14,7 +13,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
     p5.background(0);
   };
 
-  return <Sketch className="App" setup={setup} draw={draw} />;
+  return <Sketch setup={setup} draw={draw} />;
 };
 
 export default ImageSketch;
