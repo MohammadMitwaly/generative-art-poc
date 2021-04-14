@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 import ImageSketch from "./components/ImageSketch";
 import { Button, Grid, TextField, withStyles } from "@material-ui/core";
 
@@ -9,7 +10,18 @@ const styles = {
 };
 
 const App = (props: any) => {
-  const fetchImage = async () => {};
+  const fetchImage = async (url: string) => {
+    let outside;
+    fetch(url)
+      .then((response) => response.blob())
+      .then((images) => {
+        // Then create a local URL for that image and print it
+        outside = URL.createObjectURL(images);
+        setImage(outside);
+      });
+  };
+  const [image, setImage] = useState("");
+  const [url, setUrl] = useState("");
   const { classes } = props;
 
   return (
@@ -24,6 +36,7 @@ const App = (props: any) => {
       >
         <Grid item style={{ margin: "15px" }}>
           <TextField
+            value={url}
             label="Click to enter an image link:"
             variant="outlined"
             InputProps={{
@@ -32,16 +45,23 @@ const App = (props: any) => {
             InputLabelProps={{
               style: { color: "#fff" },
             }}
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
           />
         </Grid>
         <Grid item>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => fetchImage(url)}
+          >
             Generate some art!
           </Button>
         </Grid>
       </Grid>
       <br />
-      <ImageSketch />
+      {url && <ImageSketch imageLocalURL={url} />}
     </div>
   );
 };
