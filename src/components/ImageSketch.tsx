@@ -19,8 +19,8 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     if (img) {
       canvas = p5.createCanvas(img.width / 2, img.height / 2);
-      let canvasX = (p5.windowWidth - img.width / 2) / 2;
-      let canvasY = (p5.windowHeight - img.height / 2) / 2;
+      let canvasX = p5.windowWidth / 2;
+      let canvasY = 0;
       canvas.position(canvasX, canvasY);
 
       for (let column = 0; column < img.width / 2; column += 2) {

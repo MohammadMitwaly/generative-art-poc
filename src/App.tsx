@@ -19,14 +19,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{ minHeight: "15vh" }}
-      >
+      <Grid container style={{ minHeight: "15vh" }}>
         <Grid item style={{ margin: "10px" }}>
           <ImageUploader
             withIcon={true}
@@ -35,10 +28,10 @@ const App = () => {
             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
             maxFileSize={5242880}
           />
+          {url && <ImageSketch imageLocalURL={url} />}
         </Grid>
       </Grid>
       <br />
-      {url && <ImageSketch imageLocalURL={url} />}
     </div>
   );
 };
