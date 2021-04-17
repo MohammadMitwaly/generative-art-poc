@@ -17,16 +17,14 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    console.log(img);
-
     if (img) {
-      canvas = p5.createCanvas(img.width, img.height);
-      let canvasX = (p5.windowWidth - img.width) / 2;
-      let canvasY = (p5.windowHeight - img.height) / 2;
+      canvas = p5.createCanvas(img.width / 2, img.height / 2);
+      let canvasX = (p5.windowWidth - img.width / 2) / 2;
+      let canvasY = (p5.windowHeight - img.height / 2) / 2;
       canvas.position(canvasX, canvasY);
 
-      for (let column = 0; column < img.width; column += 1) {
-        for (let row = 0; row < img.height; row += 1) {
+      for (let column = 0; column < img.width / 2; column += 2) {
+        for (let row = 0; row < img.height / 2; row += 2) {
           let pixel = img.get(column, row);
           p5.stroke(p5.color(pixel));
           p5.strokeWeight(1);

@@ -1,13 +1,8 @@
 import "./App.css";
 import { useState } from "react";
 import ImageSketch from "./components/ImageSketch";
-import {
-  Button,
-  Grid,
-  TextField,
-  withStyles,
-  CircularProgress,
-} from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
+import ImageUploader from "react-images-upload";
 
 const styles = {
   input: {
@@ -16,23 +11,10 @@ const styles = {
   },
 };
 
-const App = (props: any) => {
-  const [image, setImage] = useState("");
+const App = () => {
   const [url, setUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { classes } = props;
-
-  const fetchImage = async (url: string) => {
-    setIsLoading((isLoading) => !isLoading);
-    let outside;
-    fetch(url)
-      .then((response) => response.blob())
-      .then((images) => {
-        // Then create a local URL for that image
-        outside = URL.createObjectURL(images);
-        setImage(outside);
-        setIsLoading((isLoading) => !isLoading);
-      });
+  const onDrop = (files: File[], pictures: string[]) => {
+    setUrl(pictures[0]);
   };
 
   return (
@@ -46,34 +28,17 @@ const App = (props: any) => {
         style={{ minHeight: "15vh" }}
       >
         <Grid item style={{ margin: "10px" }}>
-          <TextField
-            value={url}
-            label="Click to enter an image link:"
-            variant="outlined"
-            InputProps={{
-              className: classes.input,
-            }}
-            InputLabelProps={{
-              style: { color: "#fff" },
-            }}
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
+          <ImageUploader
+            withIcon={true}
+            buttonText="Choose an image"
+            onChange={onDrop}
+            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+            maxFileSize={5242880}
           />
-        </Grid>
-        <Grid item>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => fetchImage(url)}
-          >
-            Generate some art!
-          </Button>
         </Grid>
       </Grid>
       <br />
-      {image && <ImageSketch imageLocalURL={image} />}
-      {isLoading && <CircularProgress color="secondary" />}
+      {url && <ImageSketch imageLocalURL={url} />}
     </div>
   );
 };
