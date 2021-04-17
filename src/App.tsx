@@ -1,28 +1,39 @@
 import "./App.css";
 import { useState } from "react";
 import ImageSketch from "./components/ImageSketch";
-import { Button, Grid, TextField, withStyles } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  TextField,
+  withStyles,
+  CircularProgress,
+} from "@material-ui/core";
 
 const styles = {
   input: {
     color: "white",
+    width: "110%",
   },
 };
 
 const App = (props: any) => {
+  const [image, setImage] = useState("");
+  const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { classes } = props;
+
   const fetchImage = async (url: string) => {
+    setIsLoading((isLoading) => !isLoading);
     let outside;
     fetch(url)
       .then((response) => response.blob())
       .then((images) => {
-        // Then create a local URL for that image and print it
+        // Then create a local URL for that image
         outside = URL.createObjectURL(images);
         setImage(outside);
+        setIsLoading((isLoading) => !isLoading);
       });
   };
-  const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
-  const { classes } = props;
 
   return (
     <div className="App">
@@ -34,7 +45,7 @@ const App = (props: any) => {
         justify="center"
         style={{ minHeight: "15vh" }}
       >
-        <Grid item style={{ margin: "15px" }}>
+        <Grid item style={{ margin: "10px" }}>
           <TextField
             value={url}
             label="Click to enter an image link:"
@@ -61,7 +72,8 @@ const App = (props: any) => {
         </Grid>
       </Grid>
       <br />
-      {url && <ImageSketch imageLocalURL={url} />}
+      {image && <ImageSketch imageLocalURL={image} />}
+      {isLoading && <CircularProgress color="secondary" />}
     </div>
   );
 };
