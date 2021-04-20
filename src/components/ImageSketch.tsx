@@ -29,7 +29,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
       let canvasX = (p5.windowWidth - img.width) / 2;
       let canvasY = (p5.windowHeight - img.height) / 2;
       canvas.position(canvasX, canvasY);
-
+      // TODO: Manipulate pixel values
       for (let column = 0; column < img.width; column += 1) {
         for (let row = 0; row < img.height; row += 1) {
           let pixel = img.get(column, row);

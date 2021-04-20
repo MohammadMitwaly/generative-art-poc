@@ -17,6 +17,8 @@ const App = () => {
     setUrl(pictures[0]);
   };
 
+  // TODO: Show image and remove the load-file component
+
   return (
     <div className="App">
       <Grid container style={{ minHeight: "15vh" }}>
