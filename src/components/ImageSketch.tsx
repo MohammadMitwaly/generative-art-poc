@@ -1,6 +1,8 @@
 import React from "react";
 import Sketch from "react-p5";
 import p5Types from "p5";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 interface ImageSketchProps {
   imageLocalURL: string;
@@ -18,13 +20,13 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     if (img) {
-      canvas = p5.createCanvas(img.width / 2, img.height / 2);
-      let canvasX = p5.windowWidth / 2;
-      let canvasY = 0;
+      canvas = p5.createCanvas(img.width, img.height);
+      let canvasX = (p5.windowWidth - img.width) / 2;
+      let canvasY = (p5.windowHeight - img.height) / 2;
       canvas.position(canvasX, canvasY);
 
-      for (let column = 0; column < img.width / 2; column += 2) {
-        for (let row = 0; row < img.height / 2; row += 2) {
+      for (let column = 0; column < img.width; column += 1) {
+        for (let row = 0; row < img.height; row += 1) {
           let pixel = img.get(column, row);
           p5.stroke(p5.color(pixel));
           p5.strokeWeight(1);
@@ -36,7 +38,11 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
 
   const draw = (p5: p5Types) => {};
 
-  return <Sketch setup={setup} draw={draw} preload={preload} />;
+  return (
+    <Popup trigger={<button> Trigger</button>} position="center center">
+      <Sketch setup={setup} draw={draw} preload={preload} />
+    </Popup>
+  );
 };
 
 export default ImageSketch;
