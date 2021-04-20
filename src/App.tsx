@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div className="App">
       <Grid container style={{ minHeight: "15vh" }}>
-        <Grid item style={{ margin: "10px" }}>
+        <Grid item style={{ margin: "10px", width: "100%" }}>
           <ImageUploader
             withIcon={true}
             buttonText="Choose an image"
@@ -28,6 +28,8 @@ const App = () => {
             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
             maxFileSize={5242880}
           />
+        </Grid>
+        <Grid item style={{ margin: "10px", width: "100%" }}>
           {url && <ImageSketch imageLocalURL={url} />}
         </Grid>
       </Grid>

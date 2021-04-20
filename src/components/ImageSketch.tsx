@@ -8,6 +8,11 @@ interface ImageSketchProps {
   imageLocalURL: string;
 }
 
+// Styles for the Pop-up
+const contentStyle = { background: "#000" };
+const overlayStyle = { background: "rgba(0,0,0,0.5)" };
+const arrowStyle = { color: "#000" };
+
 const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
@@ -39,8 +44,14 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   const draw = (p5: p5Types) => {};
 
   return (
-    <Popup trigger={<button> Trigger</button>} position="center center">
-      <Sketch setup={setup} draw={draw} preload={preload} />
+    <Popup
+      trigger={<button> View new image</button>}
+      position="center center"
+      {...{ contentStyle, overlayStyle, arrowStyle }}
+    >
+      <div style={{ width: "100%", height: "100%" }}>
+        <Sketch setup={setup} draw={draw} preload={preload} />
+      </div>
     </Popup>
   );
 };
