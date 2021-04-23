@@ -3,7 +3,13 @@ import { useState } from "react";
 import ImageSketch from "./components/ImageSketch";
 import { Grid, withStyles } from "@material-ui/core";
 import ImageUploader from "react-images-upload";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 
 const styles = {
   input: {
@@ -14,8 +20,10 @@ const styles = {
 
 const App = () => {
   const [url, setUrl] = useState("");
+  const history = useHistory();
   const onDrop = (files: File[], pictures: string[]) => {
     setUrl(pictures[0]);
+    history.push("/sketch");
   };
 
   // TODO: Show image and remove the load-file component

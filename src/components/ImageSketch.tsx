@@ -1,6 +1,7 @@
 import React from "react";
 import Sketch from "react-p5";
 import p5Types from "p5";
+import { useHistory } from "react-router";
 
 interface ImageSketchProps {
   imageLocalURL: string;
@@ -9,6 +10,7 @@ interface ImageSketchProps {
 const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
+  const history = useHistory();
 
   const preload = (p5: p5Types) => {
     img = props.imageLocalURL
@@ -39,6 +41,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Sketch setup={setup} draw={draw} preload={preload} />
+      <button onClick={() => history.push("/")}>Reset</button>
     </div>
   );
 };
