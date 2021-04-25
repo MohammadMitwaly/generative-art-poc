@@ -7,8 +7,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useHistory,
+  Redirect,
 } from "react-router-dom";
 
 const styles = {
@@ -20,13 +19,9 @@ const styles = {
 
 const App = () => {
   const [url, setUrl] = useState("");
-  const history = useHistory();
   const onDrop = (files: File[], pictures: string[]) => {
     setUrl(pictures[0]);
-    history.push("/sketch");
   };
-
-  // TODO: Show image and remove the load-file component
 
   return (
     <Router>
@@ -35,18 +30,24 @@ const App = () => {
           <Switch>
             <Route path="/sketch">
               <Grid item style={{ margin: "10px", width: "100%" }}>
-                {url && <ImageSketch imageLocalURL={url} />}
+                {url && (
+                  <ImageSketch imageLocalURL={url} setImageUrl={setUrl} />
+                )}
               </Grid>
             </Route>
             <Route path="/">
               <Grid item style={{ margin: "10px", width: "100%" }}>
-                <ImageUploader
-                  withIcon={true}
-                  buttonText="Choose an image"
-                  onChange={onDrop}
-                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                  maxFileSize={5242880}
-                />
+                {url ? (
+                  <Redirect to="/sketch" />
+                ) : (
+                  <ImageUploader
+                    withIcon={true}
+                    buttonText="Choose an image"
+                    onChange={onDrop}
+                    imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                    maxFileSize={5242880}
+                  />
+                )}
               </Grid>
             </Route>
           </Switch>

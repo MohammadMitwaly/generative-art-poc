@@ -1,20 +1,20 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Sketch from "react-p5";
 import p5Types from "p5";
-import { useHistory } from "react-router";
+import { Redirect } from "react-router";
 
 interface ImageSketchProps {
   imageLocalURL: string;
+  setImageUrl: Dispatch<SetStateAction<string>>;
 }
 
 const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
-  const history = useHistory();
-
+  const [imageUrl, setImageUrl] = useState(props.imageLocalURL);
   const preload = (p5: p5Types) => {
-    img = props.imageLocalURL
-      ? p5.loadImage(props.imageLocalURL)
+    img = imageUrl
+      ? p5.loadImage(imageUrl)
       : p5.loadImage(`${process.env.PUBLIC_URL}/Monkey.jpg`);
   };
 
@@ -38,11 +38,20 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
 
   const draw = (p5: p5Types) => {};
 
-  return (
+  return imageUrl ? (
     <div style={{ width: "100%", height: "100%" }}>
       <Sketch setup={setup} draw={draw} preload={preload} />
-      <button onClick={() => history.push("/")}>Reset</button>
+      <button
+        onClick={() => {
+          props.setImageUrl("");
+          setImageUrl("");
+        }}
+      >
+        Reset
+      </button>
     </div>
+  ) : (
+    <Redirect exact to="/" />
   );
 };
 
