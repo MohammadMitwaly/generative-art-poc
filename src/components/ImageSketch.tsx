@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Sketch from "react-p5";
 import p5Types from "p5";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
 
 interface ImageSketchProps {
   imageLocalURL: string;
@@ -9,6 +9,7 @@ interface ImageSketchProps {
 }
 
 const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
+  const history = useHistory();
   let img: p5Types.Image;
   let canvas;
   const [imageUrl, setImageUrl] = useState(props.imageLocalURL);
@@ -52,6 +53,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   };
 
   const draw = (p5: p5Types) => {};
+  console.log("We are here");
 
   return imageUrl ? (
     <div style={{ width: "100%", height: "100%" }}>
@@ -60,6 +62,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
         onClick={() => {
           props.setImageUrl("");
           setImageUrl("");
+          history.push("/");
         }}
       >
         Reset

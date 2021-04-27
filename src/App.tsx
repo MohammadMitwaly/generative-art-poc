@@ -1,14 +1,9 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageSketch from "./components/ImageSketch";
 import { Grid, withStyles } from "@material-ui/core";
 import ImageUploader from "react-images-upload";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 
 const styles = {
   input: {
@@ -19,27 +14,27 @@ const styles = {
 
 const App = () => {
   const [url, setUrl] = useState("");
+  const history = useHistory();
   const onDrop = (files: File[], pictures: string[]) => {
     setUrl(pictures[0]);
   };
 
+  useEffect(() => {
+    if (url) {
+      history.push("/sketch");
+    }
+  }, [url, history]);
+
   return (
-    <Router>
-      <div className="App">
-        <Grid container style={{ minHeight: "15vh" }}>
-          <Switch>
-            <Route path="/sketch">
-              <Grid item style={{ margin: "10px", width: "100%" }}>
-                {url && (
-                  <ImageSketch imageLocalURL={url} setImageUrl={setUrl} />
-                )}
-              </Grid>
-            </Route>
-            <Route path="/">
-              <Grid item style={{ margin: "10px", width: "100%" }}>
-                {url ? (
-                  <Redirect to="/sketch" />
-                ) : (
+    <div className="App">
+      <Grid container style={{ minHeight: "15vh" }}>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return (
+                <Grid item style={{ margin: "10px", width: "100%" }}>
                   <ImageUploader
                     withIcon={true}
                     buttonText="Choose an image"
@@ -47,14 +42,25 @@ const App = () => {
                     imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                     maxFileSize={5242880}
                   />
-                )}
-              </Grid>
-            </Route>
-          </Switch>
-        </Grid>
-        <br />
-      </div>
-    </Router>
+                </Grid>
+              );
+            }}
+          ></Route>
+
+          <Route
+            path="/sketch"
+            render={() => {
+              return (
+                <Grid item style={{ margin: "10px", width: "100%" }}>
+                  <ImageSketch imageLocalURL={url} setImageUrl={setUrl} />
+                </Grid>
+              );
+            }}
+          ></Route>
+        </Switch>
+      </Grid>
+      <br />
+    </div>
   );
 };
 
