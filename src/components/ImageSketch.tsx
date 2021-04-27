@@ -24,13 +24,28 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
       let canvasX = (p5.windowWidth - img.width) / 2;
       let canvasY = (p5.windowHeight - img.height) / 2;
       canvas.position(canvasX, canvasY);
-      // TODO: Manipulate pixel values
-      for (let column = 0; column < img.width; column += 1) {
-        for (let row = 0; row < img.height; row += 1) {
-          let pixel = img.get(column, row);
+
+      for (let column = 0; column < img.width; column += 2) {
+        for (let row = 0; row < img.height; row += 2) {
+          let xCoord = column;
+          let yCoord = row;
+          let pixel = img.get(xCoord, yCoord);
+          p5.push();
+          p5.translate(xCoord, yCoord);
+          p5.noFill();
           p5.stroke(p5.color(pixel));
-          p5.strokeWeight(1);
-          p5.point(column, row);
+          p5.strokeWeight(p5.random(5));
+          p5.curve(
+            xCoord,
+            yCoord,
+            p5.sin(xCoord) * p5.random(60),
+            p5.cos(xCoord) * p5.sin(xCoord) * p5.random(90),
+            p5.random(10),
+            p5.random(80),
+            p5.cos(yCoord) * p5.sin(yCoord) * p5.random(140),
+            p5.cos(yCoord) * p5.sin(yCoord) * 50
+          );
+          p5.pop();
         }
       }
     }
