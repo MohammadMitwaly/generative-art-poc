@@ -4,6 +4,7 @@ import ImageSketch from "./components/ImageSketch";
 import { Grid, withStyles } from "@material-ui/core";
 import ImageUploader from "react-images-upload";
 import { Switch, Route, useHistory } from "react-router-dom";
+import imageCompression from "browser-image-compression";
 
 const styles = {
   input: {
@@ -15,8 +16,26 @@ const styles = {
 const App = () => {
   const [url, setUrl] = useState("");
   const history = useHistory();
-  const onDrop = (files: File[], pictures: string[]) => {
-    setUrl(pictures[0]);
+  const onDrop = async (files: File[], pictures: string[]) => {
+    const imageFile = files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(imageFile, options);
+      console.log(
+        "compressedFile instanceof Blob",
+        compressedFile instanceof Blob
+      ); // true
+      console.log(
+        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+      ); // smaller than maxSizeMB
+      setUrl(URL.createObjectURL(compressedFile));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
