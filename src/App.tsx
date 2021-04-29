@@ -25,13 +25,6 @@ const App = () => {
     };
     try {
       const compressedFile = await imageCompression(imageFile, options);
-      console.log(
-        "compressedFile instanceof Blob",
-        compressedFile instanceof Blob
-      ); // true
-      console.log(
-        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-      ); // smaller than maxSizeMB
       setUrl(URL.createObjectURL(compressedFile));
     } catch (error) {
       console.log(error);
