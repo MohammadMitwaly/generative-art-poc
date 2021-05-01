@@ -13,6 +13,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
   const [imageUrl, setImageUrl] = useState(props.imageLocalURL);
+  console.log(imageUrl);
   const preload = (p5: p5Types) => {
     img = imageUrl
       ? p5.loadImage(imageUrl)
