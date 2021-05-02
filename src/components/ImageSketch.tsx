@@ -63,7 +63,7 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
         onClick={() => {
           props.setImageUrl("");
           setImageUrl("");
-          history.push("/");
+          history.push("/generative-art-poc");
         }}
       >
         Reset
