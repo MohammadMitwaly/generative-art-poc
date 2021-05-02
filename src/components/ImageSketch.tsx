@@ -13,7 +13,6 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
   const [imageUrl, setImageUrl] = useState(props.imageLocalURL);
-  console.log(imageUrl);
   const preload = (p5: p5Types) => {
     img = imageUrl
       ? p5.loadImage(imageUrl)
@@ -54,23 +53,31 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   };
 
   const draw = (p5: p5Types) => {};
-  console.log("We are here");
-
   return imageUrl ? (
     <div style={{ width: "100%", height: "100%" }}>
-      <Sketch setup={setup} draw={draw} preload={preload} />
       <button
         onClick={() => {
           props.setImageUrl("");
           setImageUrl("");
           history.push("/generative-art-poc");
         }}
+        style={{
+          position: "absolute",
+          top: "20px",
+          height: "30px",
+          borderRadius: "8%",
+          backgroundColor: "rgb(242, 235, 235)",
+          color: "hsl(0, 1%, 18%)",
+          fontWeight: "bold",
+          fontFamily: "Roboto",
+        }}
       >
-        Reset
+        Reset Sketch
       </button>
+      <Sketch setup={setup} draw={draw} preload={preload} />
     </div>
   ) : (
-    <Redirect exact to="/" />
+    <Redirect exact to="/generative-art-poc" />
   );
 };
 
