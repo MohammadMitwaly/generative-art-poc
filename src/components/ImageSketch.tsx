@@ -16,6 +16,18 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   let img: p5Types.Image;
   let canvas;
   const [imageUrl, setImageUrl] = useState(props.imageLocalURL);
+
+  const makeid = (length: number) => {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
   const preload = (p5: p5Types) => {
     img = imageUrl
       ? p5.loadImage(imageUrl)
@@ -60,44 +72,46 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
   const draw = (p5: p5Types) => {};
   return imageUrl ? (
     <div style={{ width: "100%", height: "100%" }}>
-      <button
-        onClick={() => {
-          props.setImageUrl("");
-          setImageUrl("");
-          history.push("/generative-art-poc");
-        }}
-        style={{
-          position: "absolute",
-          top: "20px",
-          border: "none",
-          height: "30px",
-          borderRadius: "8%",
-          backgroundColor: "rgb(242, 235, 235)",
-          color: "hsl(0, 1%, 18%)",
-          fontWeight: "bold",
-          fontFamily: "Roboto",
-        }}
-      >
-        Reset Sketch
-      </button>
-      <button
-        style={{
-          position: "absolute",
-          top: "55px",
-          height: "30px",
-          borderRadius: "8%",
-          border: "none",
-          backgroundColor: "rgb(242, 235, 235)",
-          color: "hsl(0, 1%, 18%)",
-          fontWeight: "bold",
-          fontFamily: "Roboto",
-        }}
-        onClick={() => {
-          p5Instance && p5Instance.save(image, "generated.png");
-        }}
-      >
-        Save image
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            props.setImageUrl("");
+            setImageUrl("");
+            history.push("/generative-art-poc");
+          }}
+          style={{
+            position: "absolute",
+            top: "20px",
+            border: "none",
+            height: "30px",
+            borderRadius: "8%",
+            backgroundColor: "rgb(242, 235, 235)",
+            color: "hsl(0, 1%, 18%)",
+            fontWeight: "bold",
+            fontFamily: "Roboto",
+          }}
+        >
+          Reset Sketch
+        </button>
+        <button
+          style={{
+            position: "absolute",
+            top: "55px",
+            height: "30px",
+            borderRadius: "8%",
+            border: "none",
+            backgroundColor: "rgb(242, 235, 235)",
+            color: "hsl(0, 1%, 18%)",
+            fontWeight: "bold",
+            fontFamily: "Roboto",
+          }}
+          onClick={() => {
+            p5Instance && p5Instance.save(image, `${makeid(8)}.png`);
+          }}
+        >
+          Save image
+        </button>
+      </div>
       <Sketch setup={setup} draw={draw} preload={preload} />
     </div>
   ) : (
