@@ -112,7 +112,9 @@ const ImageSketch: React.FC<ImageSketchProps> = (props: ImageSketchProps) => {
           Save image
         </button>
       </div>
-      <Sketch setup={setup} draw={draw} preload={preload} />
+      <div>
+        <Sketch setup={setup} draw={draw} preload={preload} />
+      </div>
     </div>
   ) : (
     <Redirect exact to="/generative-art-poc" />
